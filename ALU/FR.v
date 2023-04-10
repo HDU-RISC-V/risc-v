@@ -1,15 +1,16 @@
 module FR (
     input clk,
     input rst_n,
-    input [3:0] flag,
+    input [3:0] in,
+    output [3:0] out
 );
     
     
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            FR <= 4'b0000;
+            out <= 4'b0000;
         end else begin
-            FR <= flag;
+            out <= in;
         end
     end
 

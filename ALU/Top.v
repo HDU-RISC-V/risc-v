@@ -51,7 +51,8 @@ module Top(
     FR u_FR (
         .clk(clk_F),
         .rst_n(rst_n),
-        .flag(Fs)
+        .in(Fs)
+        .out(F)
     );
     
     LED u_LED(
@@ -60,13 +61,6 @@ module Top(
 		  .AN(AN),
 		  .seg(seg)
 	 );
-    
-    always @(posedge clk_F or negedge rst_n) begin
-        if (!rst_n) begin
-            F <= 4'b0000;
-        end else begin
-            F <= Fs;
-        end
-    end
+
 	 
 endmodule
