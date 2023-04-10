@@ -2,7 +2,7 @@ module FR (
     input clk,
     input rst_n,
     input [3:0] in,
-    output [3:0] out
+    output reg [3:0] out
 );
     
     

@@ -9,7 +9,7 @@ module ALU (
 
     always @(*) begin
 
-        if (!n_rst) begin
+        if (!rst_n) begin
             out <= 32'h00000000;
             ZF <= 1'b0;
             CF <=1'b0;
