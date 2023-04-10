@@ -58,39 +58,39 @@ module show(
 				Bit_Sel<=Bit_Sel+1'b1;
 				
 				case(Bit_Sel)
-					2'b000:begin
+					3'b000:begin
 							AN<=4'b1111;
 							data<=Data[3:0];
 							end
-					2'b001:begin
+					3'b001:begin
 							AN<=4'b1110;
 							data<=Data[7:4];
 							end
-					2'b010:begin
+					3'b010:begin
 							AN<=4'b1101;
 							data<=Data[11:8];
 							end
-					2'b011:
+					3'b011:
 							begin
 							AN<=4'b1100;
 							data<=Data[15:12];
 							end
-					2'b100:
+					3'b100:
 							begin
 							AN<=4'b1011;
 							data<=Data[19:16];
 							end
-					2'b101:
+					3'b101:
 							begin
 							AN<=4'b1010;
 							data<=Data[23:20];
 							end
-					2'b110:
+					3'b110:
 							begin
 							AN<=4'b1001;
 							data<=Data[27:24];
 							end
-					2'b111:
+					3'b111:
 							begin
 							AN<=4'b1000;
 							data<=Data[31:28];
