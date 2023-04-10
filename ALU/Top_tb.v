@@ -1,5 +1,6 @@
 //~ `New testbench
 `timescale  1ns / 1ps  
+`include "Top.v"
 
 module tb_Top;
 
@@ -46,6 +47,90 @@ Top  u_Top (
 
 initial
 begin
+    $dumpfile("Top.vcd");
+    $dumpvars(0, tb_Top);
+
+    #100 rst_n = 0;
+    #100 rst_n = 1;
+
+// add overflow
+    #100 SW = 32'hFFFFFFFF;
+    #100 clk_A = 1;
+    #100 clk_A = 0;
+
+    #100 SW = 32'hFFFFFFFF;
+    #100 clk_B = 1;
+    #100 clk_B = 0;
+
+    #100 SW = 32'h00000000;
+    #100 clk_F = 1;
+    #100 clk_F = 0;
+
+    #1000;
+// add
+    #100 rst_n = 0;
+    #100 rst_n = 1;
+
+    #100 SW = 32'h00000001;
+    #100 clk_A = 1;
+    #100 clk_A = 0;
+
+    #100 SW = 32'h00000001;
+    #100 clk_B = 1;
+    #100 clk_B = 0;
+
+    #100 SW = 32'h00000000;
+    #100 clk_F = 1;
+    #100 clk_F = 0;
+
+    #1000;
+// move left
+    #100 SW = 32'h00000001;
+    #100 clk_A = 1;
+    #100 clk_A = 0;
+
+    #100 SW = 32'h00000002;
+    #100 clk_B = 1;
+    #100 clk_B = 0;
+
+    #100 SW = 32'h00000001;
+    #100 clk_F = 1;
+    #100 clk_F = 0;
+
+    #1000;
+
+// compare < with signal
+    #100 SW = 32'hA0000001; // neg
+    #100 clk_A = 1;
+    #100 clk_A = 0;
+
+    #100 SW = 32'h00000001; // pos
+    #100 clk_B = 1;
+    #100 clk_B = 0;
+
+    #100 SW = 32'h00000002;
+    #100 clk_F = 1;
+    #100 clk_F = 0;
+
+    #1000;
+
+// compare < with signal
+    #100 SW = 32'h00000002; // big
+    #100 clk_A = 1;
+    #100 clk_A = 0;
+
+    #100 SW = 32'h00000001; // small
+    #100 clk_B = 1;
+    #100 clk_B = 0;
+
+    #100 SW = 32'h00000002;
+    #100 clk_F = 1;
+    #100 clk_F = 0;
+
+    #1000;
+
+
+    
 
     $finish;
 end
