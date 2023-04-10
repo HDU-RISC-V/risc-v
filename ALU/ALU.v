@@ -1,5 +1,4 @@
 module ALU (
-    input clk,
     input n_rst,
     input [31:0] a,
     input [31:0] b,
@@ -8,7 +7,7 @@ module ALU (
     output reg ZF,CF,OF,SF
 );
 
-    always @(posedge clk or negedge n_rst) begin
+    always @(*) begin
 
         if (!n_rst) begin
             out <= 32'h00000000;
