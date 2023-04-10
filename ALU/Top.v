@@ -4,7 +4,6 @@
 `include "FR.v"
 
 module Top(
-	input clk,
 	input clk_F,
 	input clk_A,
 	input clk_B,
@@ -37,8 +36,7 @@ module Top(
 	
 	// ALU
     ALU u_ALU (
-        .clk(clk),
-        .n_rst(rst_n),
+        .rst_n(rst_n),
         .a(A),
         .b(B),
         .op(SW[3:0]),
@@ -52,7 +50,7 @@ module Top(
     // FR
     FR u_FR (
         .clk(clk_F),
-        .n_rst(rst_n),
+        .rst_n(rst_n),
         .flag(Fs)
     );
     
@@ -63,7 +61,7 @@ module Top(
 		  .seg(seg)
 	 );
     
-    always @(posedge clk or negedge rst_n) begin
+    always @(posedge clk_F or negedge rst_n) begin
         if (!rst_n) begin
             F <= 4'b0000;
         end else begin

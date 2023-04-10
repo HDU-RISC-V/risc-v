@@ -1,5 +1,5 @@
 module ALU (
-    input n_rst,
+    input rst_n ,
     input [31:0] a,
     input [31:0] b,
     input [3:0] op,
