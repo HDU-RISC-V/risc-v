@@ -1,3 +1,8 @@
+`include "D_register.v"
+`include "ALU.v"
+`include "LED.v"
+`include "FR.v"
+
 module Top(
 	input clk,
 	input clk_F,
@@ -5,7 +10,7 @@ module Top(
 	input clk_B,
 	input rst_n,
 	input [31:0] SW,
-   output [3:0] FR,
+   output [3:0] F,
    output [3:0] AN,
    output [7:0] seg
 );
@@ -13,6 +18,7 @@ module Top(
 	reg [31:0] A;
 	reg [31:0] B;
 	reg [31:0] Data;
+    reg [3:0] Fs;
 	
 	// D_register
     D_register u_D_registerA (
@@ -37,10 +43,17 @@ module Top(
         .b(B),
         .op(SW[3:0]),
         .out(Data),
-		  .ZF(FR[3]),
-		  .CF(FR[2]),
-		  .OF(FR[1]),
-		  .SF(FR[0])
+		  .ZF(Fs[3]),
+		  .CF(Fs[2]),
+		  .OF(Fs[1]),
+		  .SF(Fs[0])
+    );
+
+    // FR
+    FR u_FR (
+        .clk(clk_F),
+        .n_rst(rst_n),
+        .flag(Fs)
     );
     
     LED u_LED(
@@ -50,5 +63,12 @@ module Top(
 		  .seg(seg)
 	 );
     
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            F <= 4'b0000;
+        end else begin
+            F <= Fs;
+        end
+    end
 	 
 endmodule
