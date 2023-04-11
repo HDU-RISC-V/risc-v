@@ -17,7 +17,8 @@ module Top(
 	// D_register
 	wire [31:0] A;
 	wire [31:0] B;
-	wire [31:0] Data;
+	reg [31:0] Data;
+    wire [31:0] Data_reg;
     wire [3:0] Fs;
 	
 	// D_register
@@ -41,7 +42,7 @@ module Top(
         .a(A),
         .b(B),
         .op(SW[3:0]),
-        .out(Data),
+        .out(Data_reg),
 		  .ZF(Fs[3]),
 		  .CF(Fs[2]),
 		  .OF(Fs[1]),
@@ -62,6 +63,15 @@ module Top(
 		  .AN(AN),
 		  .seg(seg)
 	 );
+
+     always @(posedge clk_F or negedge rst_n) begin
+        if (!rst_n) begin
+            Data <= 32'h00000000;
+        end else begin
+            Data <= Data_reg;
+        end
+
+     end
 
 	 
 endmodule
