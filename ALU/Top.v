@@ -1,7 +1,6 @@
 `include "Reg.v"
 `include "ALU.v"
 `include "LED.v"
-`include "FR.v"
 
 module Top(
     input clk,
@@ -10,7 +9,7 @@ module Top(
 	input clk_B,
 	input rst_n,
 	input [31:0] SW,
-   output [3:0] F,
+   output reg [3:0] F,
    output [3:0] AN,
    output [7:0] seg
 );
@@ -19,7 +18,7 @@ module Top(
 	wire [31:0] B;
 	reg [31:0] Data;
     wire [31:0] Data_reg;
-    wire [3:0] Fs;
+    wire [3:0] Fr;
 	
 	// D_register
     D_register u_D_registerA (
@@ -43,20 +42,13 @@ module Top(
         .b(B),
         .op(SW[3:0]),
         .out(Data_reg),
-		  .ZF(Fs[3]),
-		  .CF(Fs[2]),
-		  .OF(Fs[1]),
-		  .SF(Fs[0])
+		  .ZF(Fr[3]),
+		  .CF(Fr[2]),
+		  .OF(Fr[1]),
+		  .SF(Fr[0])
     );
 
-    // FR
-    FR u_FR (
-        .clk(clk_F),
-        .rst_n(rst_n),
-        .in(Fs),
-        .out(F)
-    );
-    
+    // LED
     LED u_LED(
 		  .clk(clk),
 		  .Data(Data),
@@ -71,6 +63,14 @@ module Top(
             Data <= Data_reg;
         end
 
+     end
+
+     always @(posedge clk_F or negedge rst_n) begin
+        if (!rst_n) begin
+            F <= 4'b0000;
+        end else begin
+            F <= Fr;
+        end
      end
 
 	 
