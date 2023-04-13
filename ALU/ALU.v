@@ -13,6 +13,8 @@ module ALU (
             out <= 32'h00000000;
             ZF <= 1'b0;
             CF <=1'b0;
+            OF <= 1'b0;
+            SF <= 1'b0;
         end else
         
             if (op ==4'b0000) begin
