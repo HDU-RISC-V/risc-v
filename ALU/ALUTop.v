@@ -2,7 +2,7 @@
 `include "ALU.v"
 `include "LED.v"
 
-module Top(
+module ALUTop(
     input clk,
 	input clk_F,
 	input clk_A,
