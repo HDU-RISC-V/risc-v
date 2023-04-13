@@ -1,74 +1,64 @@
-`include "D_register.v"
+`include "Reg.v"
 `include "ALU.v"
 `include "LED.v"
-`include "FR.v"
 
 module Top(
-	input clk,
+    input clk,
 	input clk_F,
 	input clk_A,
 	input clk_B,
-	input rst_n,
 	input [31:0] SW,
-   output [3:0] F,
+   output reg [3:0] F,
    output [3:0] AN,
    output [7:0] seg
 );
 	// D_register
-	reg [31:0] A;
-	reg [31:0] B;
+	wire [31:0] A;
+	wire [31:0] B;
 	reg [31:0] Data;
-    reg [3:0] Fs;
+    wire [31:0] Data_reg;
+    wire [3:0] Fr;
 	
 	// D_register
     D_register u_D_registerA (
         .clk(clk_A),
-        .n_rst(n_rst),
         .in(SW[31:0]),
         .out(A)
     );
 
     D_register u_D_registerB (
         .clk(clk_B),
-        .n_rst(n_rst),
         .in(SW[31:0]),
         .out(B)
     );
 	
 	// ALU
     ALU u_ALU (
-        .clk(clk),
-        .n_rst(rst_n),
         .a(A),
         .b(B),
         .op(SW[3:0]),
-        .out(Data),
-		  .ZF(Fs[3]),
-		  .CF(Fs[2]),
-		  .OF(Fs[1]),
-		  .SF(Fs[0])
+        .out(Data_reg),
+		  .ZF(Fr[3]),
+		  .CF(Fr[2]),
+		  .OF(Fr[1]),
+		  .SF(Fr[0])
     );
 
-    // FR
-    FR u_FR (
-        .clk(clk_F),
-        .n_rst(rst_n),
-        .flag(Fs)
-    );
-    
+    // LED
     LED u_LED(
 		  .clk(clk),
 		  .Data(Data),
 		  .AN(AN),
 		  .seg(seg)
 	 );
-    
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            F <= 4'b0000;
-        end else begin
-            F <= Fs;
-        end
-    end
+
+     always @(posedge clk_F) begin
+        Data <= Data_reg;
+     end
+
+     always @(posedge clk_F) begin
+            F <= Fr;
+     end
+
 	 
 endmodule
