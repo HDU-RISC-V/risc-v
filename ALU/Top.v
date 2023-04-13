@@ -16,7 +16,7 @@ module Top(
 	// D_register
 	wire [31:0] A;
 	wire [31:0] B;
-	reg [31:0] Data;
+	reg [31:0] Data = 32'b0;
     wire [31:0] Data_reg;
     wire [3:0] Fr;
 	

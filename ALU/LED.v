@@ -6,8 +6,8 @@ module LED(
 );
 
     wire clk_500HZ;
-    C250HZ user2(clk,clk_500HZ);
-    show u4(clk_250HZ,Data,AN,seg);
+    C500HZ user2(clk,clk_500HZ);
+    show u4(clk_500HZ,Data,AN,seg);
 	 
 endmodule
 
@@ -15,7 +15,7 @@ endmodule
 
 
 
-module C250HZ( // 每个数码管选通时间为2ms,即转换信号为500HZ 
+module C500HZ( // 每个数码管选通时间为2ms,即转换信号为500HZ 
   input clk_old,
   output reg clk_new
 );
