@@ -27,17 +27,12 @@ begin
     forever #(PERIOD/2)  clk=~clk;
 end
 
-initial
-begin
-    #(PERIOD*2) rst_n  =  1;
-end
 
 Top  u_Top (
     .clk                     ( clk           ),
     .clk_F                   ( clk_F         ),
     .clk_A                   ( clk_A         ),
     .clk_B                   ( clk_B         ),
-    .rst_n                   ( rst_n         ),
     .SW                      ( SW     [31:0] ),
 
     .F                       ( F      [3:0]  ),
@@ -50,8 +45,6 @@ begin
     $dumpfile("Top.vcd");
     $dumpvars(0, tb_Top);
 
-    #100 rst_n = 0;
-    #100 rst_n = 1;
 
 // add overflow
     #100 SW = 32'hFFFFFFFF;
@@ -68,8 +61,6 @@ begin
 
     #1000;
 // add
-    #100 rst_n = 0;
-    #100 rst_n = 1;
 
     #100 SW = 32'h00000001;
     #100 clk_A = 1;
