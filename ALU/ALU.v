@@ -60,6 +60,16 @@ module ALU (
                 out <= a >> b;
         end
 
+        // INC
+        else if (op ==4'b1010) begin
+            {CF,out} <= a+1;
+        end
+
+        // DEC
+        else if (op ==4'b1011) begin
+            {CF,out} <= a-1;
+        end
+
         ZF<=(out==0)?1:0;
         OF<=CF^out[31]^a[31]^b[31];
         SF<=out[31];
