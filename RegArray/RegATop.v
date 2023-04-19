@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
-`include "..\\ALU\\ALU.v" 
-`include "..\\ALU\\LED.v" 
-`include "..\\ALU\\Reg.v" 
+`include "../ALU/ALU.v" 
+`include "../ALU/LED.v" 
+`include "../ALU/Reg.v" 
 `include "RegArray.v" 
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
@@ -29,7 +29,6 @@ module RegATop(
 	 input[4:0] W_Addr,
 	 input[3:0] ALU_OP,
 	 input Reg_Write,
-	 input rst_n,
 	 input clk_RR,
 	 input clk_F,
 	 input clk_WB,

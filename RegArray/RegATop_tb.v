@@ -14,7 +14,6 @@ reg   [4:0]  R_Addr_B                      = 0 ;
 reg   [4:0]  W_Addr                        = 0 ;
 reg   [3:0]  ALU_OP                        = 0 ;
 reg   Reg_Write                            = 0 ;
-reg   rst_n                                = 0 ;
 reg   clk_RR                               = 0 ;
 reg   clk_F                                = 0 ;
 reg   clk_WB                               = 0 ;
@@ -30,10 +29,6 @@ begin
     forever #(PERIOD/2)  clk=~clk;
 end
 
-initial
-begin
-    #(PERIOD*2) rst_n  =  1;
-end
 
 RegATop  u_RegATop (
     .clk                     ( clk              ),
@@ -42,7 +37,6 @@ RegATop  u_RegATop (
     .W_Addr                  ( W_Addr     [4:0] ),
     .ALU_OP                  ( ALU_OP     [3:0] ),
     .Reg_Write               ( Reg_Write        ),
-    .rst_n                   ( rst_n            ),
     .clk_RR                  ( clk_RR           ),
     .clk_F                   ( clk_F            ),
     .clk_WB                  ( clk_WB           ),
@@ -54,6 +48,9 @@ RegATop  u_RegATop (
 
 initial
 begin
+    $dumpfile("RegATop.vcd");
+    $dumpvars(0, tb_RegATop);
+
 
     $finish;
 end
