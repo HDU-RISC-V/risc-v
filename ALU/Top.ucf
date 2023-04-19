@@ -65,7 +65,7 @@ NET "rst_n" LOC = T5;
 NET "clk_A" PULLDOWN;
 NET "clk_B" PULLDOWN;
 NET "clk_F" PULLDOWN;
-NET "rst_n" PULLDOWN;
+NET "rst_n" PULLUP;
 
 
 NET "SW[31]" LOC = T3;
