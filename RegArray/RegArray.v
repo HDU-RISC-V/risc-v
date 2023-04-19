@@ -16,6 +16,15 @@ module RegArray (
     assign R_Data_A=REG_Files[R_Addr_A_32];
     assign R_Data_B=REG_Files[R_Addr_B_32];
 
+    integer i;
+
+    initial begin
+        for (i=0;i<32;i=i+1) begin
+            REG_Files[i]=32'h00000000;
+            $display("REG_Files[%d]=%h",i,REG_Files[i]);
+        end
+    end
+
     Decoder_5_32 uW(
         .in(W_Addr),
         .out(W_Addr_32)
