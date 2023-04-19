@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
-`include "..\ALU\ALU.v" 
-`include "..\ALU\LED.v" 
-`include "..\ALU\Reg.v" 
+`include "..\\ALU\\ALU.v" 
+`include "..\\ALU\\LED.v" 
+`include "..\\ALU\\Reg.v" 
 `include "RegArray.v" 
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
@@ -50,7 +50,7 @@ module RegATop(
 			.R_Addr_A(R_Addr_A),
 			.R_Addr_B(R_Addr_B),
 			.W_Addr(W_Addr),
-			.W_Data(W_Data),
+			.W_Data(F),
 			.R_Data_A(R_Data_A),
 			.R_Data_B(R_Data_B)
 	 );
@@ -70,8 +70,8 @@ module RegATop(
 	 
 	 	// ALU
     ALU u_ALU (
-        .a(A),
-        .b(B),
+        .a(R_Data_A),
+        .b(R_Data_B),
         .op(ALU_OP),
         .out(Data_reg),
 		  .ZF(Fr[3]),
