@@ -1,4 +1,3 @@
-`timescale 1ns / 1ps
 `include "../ALU/ALU.v" 
 `include "../ALU/LED.v" 
 `include "../ALU/Reg.v" 
@@ -36,12 +35,16 @@ module RegATop(
     output [7:0] seg,
 	 output [3:0] FR
     );
-	 reg [31:0] F;
-	 wire[31:0] R_Data_A;
-	 wire[31:0] R_Data_B;
-	 reg [31:0] Data;
+	reg [31:0] F;
+	wire[31:0] R_Data_A;
+	wire[31:0] R_Data_B;
+	// reg [31:0] Data;
     wire [31:0] Data_reg;
     wire [3:0] Fr;
+
+	wire [31:0] R_Data_A_;
+	wire [31:0] R_Data_B_;
+
 	 // RegArray
 	 RegArray RegArr(
 			.clk_Regs(clk_WB),
@@ -57,20 +60,20 @@ module RegATop(
 	 D_register u_D_registerA (
         .clk(clk_RR),
         .in(R_Data_A[31:0]),
-        .out(R_Data_A[31:0])
+        .out(R_Data_A_)
     );
 	 // RegB
 	 D_register u_D_registerB (
         .clk(clk_RR),
         .in(R_Data_B[31:0]),
-        .out(R_Data_B)
+        .out(R_Data_B_)
     );
 	 
 	 
 	 	// ALU
     ALU u_ALU (
-        .a(R_Data_A),
-        .b(R_Data_B),
+        .a(R_Data_A_),
+        .b(R_Data_B_),
         .op(ALU_OP),
         .out(Data_reg),
 		  .ZF(Fr[3]),
@@ -82,18 +85,18 @@ module RegATop(
     // LED
     LED u_LED(
 		  .clk(clk),
-		  .Data(Data),
+		  .Data(F),
 		  .AN(AN),
 		  .seg(seg)
 	 );
 
      always @(posedge clk_F) begin
-        Data <= Data_reg;
+        F <= Data_reg;
      end
 
-     always @(posedge clk_F) begin
-            F <= Fr;
-     end
+    //  always @(posedge clk_F) begin
+    //         F <= Fr;
+    //  end
 	 
 	 
 endmodule
