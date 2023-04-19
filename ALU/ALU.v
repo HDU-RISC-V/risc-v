@@ -13,7 +13,7 @@ module ALU (
         end
 
         else if (op ==4'b0001) begin
-            out <= a << b;
+            {CF,out} <= a << b;
         end
 
         else if (op ==4'b0010) begin
@@ -71,7 +71,8 @@ module ALU (
         end
 
         ZF<=(out==0)?1:0;
-        OF<=CF^out[31]^a[31]^b[31];
+        // OF<=CF^out[31]^a[31]^b[31];
+        OF<=CF^out[31];
         SF<=out[31];
     end
 
