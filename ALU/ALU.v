@@ -19,6 +19,8 @@ module ALU (
         else if (op == 4'b0001) begin
             // 左移操作，将a左移b位
             out <= a << b;
+        else if (op ==4'b0001) begin
+            {CF,out} <= a << b;
         end
 
         else if (op == 4'b0010) begin
@@ -71,10 +73,20 @@ module ALU (
                 out <= a >> b;
         end
 
-        // 更新零标志位、溢出标志位和符号标志位
-        ZF <= (out == 0) ? 1 : 0;
-        OF <= CF ^ out[31] ^ a[31] ^ b[31];
-SF <= out[31];
-end
+        // INC
+        else if (op ==4'b1010) begin
+            {CF,out} <= a+1;
+        end
+
+        // DEC
+        else if (op ==4'b1011) begin
+            {CF,out} <= a-1;
+        end
+
+        ZF<=(out==0)?1:0;
+        // OF<=CF^out[31]^a[31]^b[31];
+        OF<=CF^out[31];
+        SF<=out[31];
+    end
 
 endmodule
