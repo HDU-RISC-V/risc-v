@@ -1,6 +1,6 @@
-`include "../ALU/ALU.v" 
-`include "../ALU/LED.v" 
-`include "../ALU/Reg.v" 
+`include "./ALU/ALU.v" 
+`include "./ALU/LED.v" 
+`include "./ALU/Reg.v" 
 `include "RegArray.v" 
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
@@ -33,7 +33,7 @@ module RegATop(
 	 input clk_WB,
 	 output [3:0] AN,
     output [7:0] seg,
-	 output [3:0] FR
+	 output reg [3:0] FR
     );
 	reg [31:0] F;
 	wire[31:0] R_Data_A;
@@ -92,6 +92,7 @@ module RegATop(
 
      always @(posedge clk_F) begin
         F <= Data_reg;
+		  FR <= Fr;
      end
 
     //  always @(posedge clk_F) begin
