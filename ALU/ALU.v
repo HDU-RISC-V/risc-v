@@ -16,10 +16,8 @@ module ALU (
             {CF, out} <= a + b;
         end
 
-        else if (op == 4'b0001) begin
-            // 左移操作，将a左移b位
-            out <= a << b;
         else if (op ==4'b0001) begin
+            // 左移操作，将a左移b位
             {CF,out} <= a << b;
         end
 
