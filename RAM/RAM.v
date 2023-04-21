@@ -6,41 +6,28 @@ module RAM (
     input [5:0] DM_Addr,
     input [31:0] M_W_Data,
     input clk_dm,
-    output reg [31:0] M_R_Data
+    output [31:0] M_R_Data
 );
-    wire [31:0] R_A;
-    wire [31:0] R_B;
-    wire [31:0] Abort_Data;
-    
-    RegArray arr_00 (
-        .clk_Regs(clk_dm*(~DM_Addr[4])),
-        .Reg_Write(Men_Write),
-        .R_Addr_A(DM_Addr[4:0]),
-        .R_Addr_B(5'b00000),
-        .W_Addr(DM_Addr[4:0]),
-        .W_Data(M_W_Data),
-        .R_Data_A(R_A),
-        .R_Data_B(Abort_Data)
-    );
+    reg [31:0] M_R_Data_reg_00 [0:31];
+    reg [31:0] M_R_Data_reg_01 [0:31];
+    integer i;
 
-    RegArray arr_01 (
-        .clk_Regs(clk_dm*(DM_Addr[4])),
-        .Reg_Write(Men_Write),
-        .R_Addr_A(DM_Addr[4:0]),
-        .R_Addr_B(5'b00000),
-        .W_Addr(DM_Addr[4:0]),
-        .W_Data(M_W_Data),
-        .R_Data_A(R_B),
-        .R_Data_B(Abort_Data)
-    );
+    assign M_R_Data = DM_Addr[5]&M_R_Data_reg_01[DM_Addr[4:0]] | ~DM_Addr[5]&M_R_Data_reg_00[DM_Addr[4:0]];
 
-    always @(posedge clk_dm) begin
-        if (DM_Addr[4]) begin
-            M_R_Data <= R_B;
-        end
-        else begin
-            M_R_Data <= R_A;
+    initial begin
+        for (i = 0; i<32; ++i) begin
+            M_R_Data_reg_00[i] = 32'h00000000;
+            M_R_Data_reg_01[i] = 32'h00000000;
         end
     end
+
+    always@(posedge clk_dm) begin
+        if (DM_Addr[5]==0) begin
+            M_R_Data_reg_00[DM_Addr[4:0]] <= M_W_Data;
+        end else begin
+            M_R_Data_reg_01[DM_Addr[4:0]] <= M_W_Data;
+        end
+    end
+
 
 endmodule
