@@ -2,7 +2,7 @@
 
 
 module RAM (
-    input Men_Write,
+    input Mem_Write,
     input [5:0] DM_Addr,
     input [31:0] M_W_Data,
     input clk_dm,
