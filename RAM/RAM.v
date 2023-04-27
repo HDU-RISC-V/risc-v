@@ -1,6 +1,3 @@
-`include "../RegArray/RegArray.v"
-
-
 module RAM (
     input Mem_Write,
     input [5:0] DM_Addr,
