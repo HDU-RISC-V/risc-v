@@ -75,7 +75,7 @@ module show(
             end
             3'b101: begin
                 AN <= 4'b1010;
-                data <= Data[23:0];
+                data <= Data[23:20];
 			end
 			3'b110: begin
 				AN <= 4'b1001;
