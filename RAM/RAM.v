@@ -9,7 +9,8 @@ module RAM (
     reg [31:0] M_R_Data_reg_01 [0:31];
     integer i;
 
-    assign M_R_Data = DM_Addr[5]&M_R_Data_reg_01[DM_Addr[4:0]] | ~DM_Addr[5]&M_R_Data_reg_00[DM_Addr[4:0]];
+    assign M_R_Data = DM_Addr[5]?M_R_Data_reg_01[DM_Addr[4:0]]:M_R_Data_reg_00[DM_Addr[4:0]];
+
 
     initial begin
         for (i = 0; i<32; ++i) begin
@@ -21,9 +22,12 @@ module RAM (
     always@(posedge clk_dm) begin
         if (DM_Addr[5]==0) begin
             M_R_Data_reg_00[DM_Addr[4:0]] <= M_W_Data;
+            $display("M_R_Data_reg_00[%d] <= %d", DM_Addr[4:0], M_W_Data);
         end else begin
             M_R_Data_reg_01[DM_Addr[4:0]] <= M_W_Data;
+            $display("M_R_Data_reg_01[%d] <= %d", DM_Addr[4:0], M_W_Data);
         end
+        $display("M_R_Data = %d", M_R_Data);
     end
 
 
