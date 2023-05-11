@@ -5,12 +5,12 @@ module PC(
     output reg [31:0] PC_Out
 );
 initial begin
-    pc_out = 0;
+    PC_Out = 0;
 end
 
 always @(posedge clk) begin
     if (PC_Write) begin
-        pc_out = pc_in;
+        PC_Out = PC_In;
     end
 end
 
