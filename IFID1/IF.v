@@ -8,6 +8,7 @@ module IF(
     input IR_Write,
     input PC_Write,
     input clk_im,
+    input rst_n,
     output [31:0] inst,
     output [31:0] pc_out
 );
@@ -26,6 +27,7 @@ PC pc_0(
     .PC_In(add_out),
     .PC_Write(PC_Write),
     .clk(~clk_im),
+    .rst_n(rst_n),
     .PC_Out(_pc_out)
 );
 
