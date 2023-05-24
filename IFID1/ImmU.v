@@ -28,10 +28,10 @@ module ImmU (
         end
         // I
         else if (opcode==7'b0010011||opcode==7'b0000011||opcode==7'b1100111||opcode==7'b1110011) begin
-            imm32<={20'b0,inst[31:20]};
+            imm32<={{20{inst[31]}},inst[31:20]};
             funct3<=inst[14:12];
-            if (funct3==3'h1||funct3==3'h5) begin
-                imm32[11:5]<=7'b0;
+            if (opcode==7'b0010011&&(funct3==3'b001||funct3==3'b101)) begin
+                imm32[31:5]<=27'b0;
             end
         end
     end
