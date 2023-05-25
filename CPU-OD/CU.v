@@ -102,7 +102,9 @@ begin
                 Reg_Write <= 1'b0;
             end
             S2:begin
-            
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b0;
             end
             S3:begin
             
