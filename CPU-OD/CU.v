@@ -46,7 +46,7 @@ begin
             Next_ST <=S1;
         end
         S5: begin
-
+            Next_ST <=S4;
         end
         S6: begin
 
@@ -84,7 +84,16 @@ begin
                 w_data_s <= 1'b0;
             end
             S5:begin
-            
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b0;
+                rs2_imm_s <= 1'b1;
+                if (funct3==3'b101) begin
+                    ALU_OP <= {funct7[5],funct3};                    
+                end
+                else begin
+                  ALU_OP<={1'b0,funct3};
+                end
             end
             S6:begin
             
