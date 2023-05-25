@@ -56,7 +56,16 @@ begin
             endcase
         end
         S2: begin
-
+            case (funct7)
+                7'b0010011: begin
+                    Next_ST <= S3;
+                end
+                7'b0110011: begin
+                    Next_ST <= S5;
+                end
+                default:
+                    Next_ST <= Idle;
+            endcase
         end
         S3: begin
 
