@@ -97,7 +97,9 @@ begin
     end else begin
         case (Next_ST)
             S1:begin
-            
+                PC_Write <= 1'b1;
+                IR_Write <= 1'b1;
+                Reg_Write <= 1'b0;
             end
             S2:begin
             
