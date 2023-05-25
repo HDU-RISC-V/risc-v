@@ -43,7 +43,7 @@ begin
 
         end
         S4: begin
-
+            Next_ST <=S1;
         end
         S5: begin
 
@@ -78,7 +78,10 @@ begin
             
             end
             S4:begin
-            
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b1;
+                w_data_s <= 1'b0;
             end
             S5:begin
             
