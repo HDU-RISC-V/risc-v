@@ -19,11 +19,12 @@ reg [3:0] S0, S1, S2, S3, S4, S5, S6, S7, S8, S9; // 有限状态
 reg [3:0] Next_ST; //次态
 
 
-always @(negedge rst n or posedge clk)
+always @(negedge rst_n or posedge clk)
 begin 
-    if (Irst n) begin
+    if (!rst_n) begin
         ST <= Idle;
-    else
+    end
+    else begin
         ST <= Next_ST;
     end
 end
@@ -56,7 +57,7 @@ begin
     endcase
 end
 
-always @(negedge rst n or posedge clk)
+always @(negedge rst_n or posedge clk)
 begin
     if (!rst_n) begin
         PC_Write <= 1'b0;
