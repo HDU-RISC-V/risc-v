@@ -49,7 +49,7 @@ begin
             Next_ST <=S4;
         end
         S6: begin
-
+            Next_ST <=S1;
         end
         default begin
 
@@ -96,7 +96,10 @@ begin
                 end
             end
             S6:begin
-            
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b1;
+                w_data_s <= 1'b1;
             end
         endcase
     end
