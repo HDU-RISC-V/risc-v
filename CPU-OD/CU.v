@@ -38,7 +38,7 @@ end
 
 always @(*)
 begin
-    Next_ST = Idle;
+    Next_ST <= Idle;
     case (ST) 
         S1: begin
             case (opcode)
