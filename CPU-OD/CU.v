@@ -41,7 +41,19 @@ begin
     Next_ST = Idle;
     case (ST) 
         S1: begin
-
+            case (funct7)
+                7'b0010011: begin
+                    Next_ST <= S2;
+                end
+                7'b0110011: begin
+                    Next_ST <= S2;
+                end
+                7'b0110111: begin
+                    Next_ST <= S6;
+                end
+                default:
+                    Next_ST <= Idle;
+            endcase
         end
         S2: begin
 
