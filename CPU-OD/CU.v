@@ -68,7 +68,7 @@ begin
             endcase
         end
         S3: begin
-
+            Next_ST <= S4;
         end
         S4: begin
 
