@@ -14,7 +14,14 @@ module CU(
 
 reg Idle; // 空闲
 reg [3:0] ST; // 当前状态
-reg [3:0] S0, S1, S2, S3, S4, S5, S6, S7, S8, S9; // 有限状态
+
+// 有限状态
+parameter S1 = 4'b0001;
+parameter S2 = 4'b0010;
+parameter S3 = 4'b0011;
+parameter S4 = 4'b0100;
+parameter S5 = 4'b0101;
+parameter S6 = 4'b0110;
 
 reg [3:0] Next_ST; //次态
 
