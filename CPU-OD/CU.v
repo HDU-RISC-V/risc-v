@@ -111,8 +111,7 @@ begin
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b0;
                 rs2_imm_s <= 1'b0;
-                case (funct3)
-                
+                ALU_OP <= {funct7[5], funct3};
             end
             S4:begin
             
