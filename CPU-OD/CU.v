@@ -41,7 +41,7 @@ begin
     Next_ST = Idle;
     case (ST) 
         S1: begin
-            case (funct7)
+            case (opcode)
                 7'b0010011: begin
                     Next_ST <= S2;
                 end
@@ -56,7 +56,7 @@ begin
             endcase
         end
         S2: begin
-            case (funct7)
+            case (opcode)
                 7'b0010011: begin
                     Next_ST <= S3;
                 end
@@ -107,7 +107,12 @@ begin
                 Reg_Write <= 1'b0;
             end
             S3:begin
-            
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b0;
+                rs2_imm_s <= 1'b0;
+                case (funct3)
+                
             end
             S4:begin
             
