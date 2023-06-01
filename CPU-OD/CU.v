@@ -12,10 +12,10 @@ module CU(
     output reg PC_Write
 );
 
-reg Idle; // 空闲
 reg [3:0] ST; // 当前状态
 
 // 有限状态
+parameter Idle = 4'b0000; // 空闲
 parameter S1 = 4'b0001;
 parameter S2 = 4'b0010;
 parameter S3 = 4'b0011;
@@ -24,6 +24,10 @@ parameter S5 = 4'b0101;
 parameter S6 = 4'b0110;
 
 reg [3:0] Next_ST; //次态
+
+initial begin
+    ST <= Idle;
+end
 
 
 always @(negedge rst_n or posedge clk)
@@ -80,7 +84,7 @@ begin
             Next_ST <=S1;
         end
         default begin
-
+            Next_ST <= S1;
         end 
     endcase
 end
