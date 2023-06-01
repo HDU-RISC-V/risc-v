@@ -36,15 +36,23 @@ module CPUTop(
 	 input [2:0]SW,
 	 output reg [3:0]FR,
 	 output [3:0]AN,
-	 output [7:0]seg
+	 output [7:0]seg,
+	 output t1,
+	 output t2,
+	 output rs2imms,
+	 output wdatas
 	 );
+	 assign t1 = clk;
+	 assign t2 = rst_n;
+	 assign rs2imms = rs2_imm_s;
+	 assign wdatas = w_data_s;
 	 
-	reg _clk;
-	always begin _clk=~clk;end
+	//reg _clk;
+	//always begin _clk=~clk;end
 	
 	wire PC_Write;
 	wire IR_Write;
-	wire clk_im=clk;
+	// wire clk_im=clk;
 	
 	wire [4:0]rs1;
 	wire [4:0]rs2;
@@ -60,7 +68,7 @@ module CPUTop(
 	 IF if0(
 	 .IR_Write(IR_Write),
 	 .PC_Write(PC_Write),
-	 .clk_im(clk_im),
+	 .clk_im(clk),/////////////////////////////////
 	 .inst(inst32),
 	 .rst_n(rst_n),
 	 .pc_out(pc32)
@@ -104,7 +112,7 @@ module CPUTop(
 	reg [31:0] W_Data;
 	 // RegArray
 	 RegArray RegArr(
-			.clk_Regs(_clk),
+			.clk_Regs(~clk),
 			.Reg_Write(Reg_Write),
 			.R_Addr_A(rs1),
 			.R_Addr_B(rs2),
@@ -115,17 +123,18 @@ module CPUTop(
 	 );
 	 // RegA
 	 D_register u_D_registerA (
-        .clk(_clk),
+        .clk(~clk),
         .in(R_Data_A[31:0]),
         .out(A)
     );
 	 // RegB
 	 D_register u_D_registerB (
-        .clk(_clk),
+        .clk(~clk),
         .in(R_Data_B[31:0]),
         .out(B)
     );
 	 
+	 wire [31:0] Data_reg;
 	 reg [31:0]ALU_B;
 	 wire [3:0]Fr;
 	 	// ALU
@@ -148,16 +157,16 @@ module CPUTop(
 		else begin ALU_B<=imm32; end
 	  if (w_data_s==0)begin W_Data<=F; end
 		else begin W_Data<=imm32; end
-     if (_clk==0)begin 
+     if (~clk==1)begin 
 		  F <= Data_reg;
 		  FR <= Fr; end
 	  case({SW[2],SW[1],SW[0]})
-	  2'b000:begin DATA_OUTPUT<=pc32; end
-	  2'b001:begin DATA_OUTPUT<=inst32; end
-	  2'b010:begin DATA_OUTPUT<=W_Data; end
-	  2'b011:begin DATA_OUTPUT<=A; end
-	  2'b100:begin DATA_OUTPUT<=B; end
-	  2'b101:begin DATA_OUTPUT<=F; end
+	  3'b000:begin DATA_OUTPUT<=pc32; end
+	  3'b001:begin DATA_OUTPUT<=inst32; end
+	  3'b010:begin DATA_OUTPUT<=W_Data; end
+	  3'b011:begin DATA_OUTPUT<=A; end
+	  3'b100:begin DATA_OUTPUT<=B; end
+	  3'b101:begin DATA_OUTPUT<=F; end
 	  endcase
      
 	  end
