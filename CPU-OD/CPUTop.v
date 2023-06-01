@@ -44,7 +44,6 @@ module CPUTop(
 	
 	wire PC_Write;
 	wire IR_Write;
-	wire rst_n;
 	wire clk_im=clk;
 	
 	wire [4:0]rs1;
@@ -87,6 +86,8 @@ module CPUTop(
 	.opcode(opcode),
 	.funct3(funct3),
 	.funct7(funct7),
+	.rst_n(rst_n),
+	.clk(clk),
 	.PC_Write(PC_Write),
 	.IR_Write(IR_Write),
 	.Reg_Write(Reg_Write),
