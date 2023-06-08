@@ -7,6 +7,13 @@ module DM (
 );
     reg [31:0] _data[0:255];
     wire [7:0] _addr;
+    integer i;
+
+    initial begin
+        for (i=0; i<256; i=i+1) begin
+            _data[i]<=i;
+        end
+    end
     
     assign _addr=DM_Addr%256;
     assign M_R_Data=_data[_addr];
