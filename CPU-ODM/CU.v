@@ -185,6 +185,32 @@ begin
                 w_data_s <= 2'b01;
                 Mem_Write <= 1'b0;
             end
+            S7:begin
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b0;
+                ALU_OP <= 4'b0000;
+                Mem_Write <= 1'b0;
+            end
+            S8:begin
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b0;
+                Mem_Write <= 1'b0;
+            end
+            S9:begin
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b1;
+                Mem_Write <= 1'b0;
+                w_data_s <= 2'b10;
+            end
+            S9:begin
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b1;
+                Mem_Write <= 1'1;
+            end
         endcase
     end
 end
