@@ -11,6 +11,8 @@ module CU(
     output reg Reg_Write,
     output reg IR_Write,
     output reg PC_Write,
+    output reg PC0_Write,
+    output reg [1:0] PC_s,
     output reg Mem_Write
 );
 
@@ -189,12 +191,15 @@ begin
                 IR_Write <= 1'b1;
                 Reg_Write <= 1'b0;
                 Mem_Write <= 1'b0;
+                PC0_Write <= 1'b1;
+                PC_s <= 2'b00;
             end
             S2:begin
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b0;
                 Mem_Write <= 1'b0;
+                PC0_Write <= 1'b0;
             end
             S3:begin
                 PC_Write <= 1'b0;
@@ -203,6 +208,7 @@ begin
                 rs2_imm_s <= 1'b0;
                 ALU_OP <= {funct7[5], funct3};
                 Mem_Write <= 1'b0;
+                PC0_Write <= 1'b0;
             end
             S4:begin
                 PC_Write <= 1'b0;
@@ -210,6 +216,7 @@ begin
                 Reg_Write <= 1'b1;
                 w_data_s <= 2'b00;
                 Mem_Write <= 1'b0;
+                PC0_Write <= 1'b0;
             end
             S5:begin
                 PC_Write <= 1'b0;
@@ -217,6 +224,7 @@ begin
                 Reg_Write <= 1'b0;
                 rs2_imm_s <= 1'b1;
                 Mem_Write <= 1'b0;
+                PC0_Write <= 1'b0;
                 if (funct3==3'b101) begin
                     ALU_OP <= {funct7[5],funct3};                    
                 end
@@ -230,6 +238,7 @@ begin
                 Reg_Write <= 1'b1;
                 w_data_s <= 2'b01;
                 Mem_Write <= 1'b0;
+                PC0_Write <= 1'b0;
             end
             S7:begin
                 PC_Write <= 1'b0;
@@ -237,12 +246,14 @@ begin
                 Reg_Write <= 1'b0;
                 ALU_OP <= 4'b0000;
                 Mem_Write <= 1'b0;
+                PC0_Write <= 1'b0;
             end
             S8:begin
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b0;
                 Mem_Write <= 1'b0;
+                PC0_Write <= 1'b0;
             end
             S9:begin
                 PC_Write <= 1'b0;
@@ -250,36 +261,49 @@ begin
                 Reg_Write <= 1'b1;
                 Mem_Write <= 1'b0;
                 w_data_s <= 2'b10;
+                PC0_Write <= 1'b0;
             end
             S10:begin
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b0;
                 Mem_Write <= 1'b1;
+                PC0_Write <= 1'b0;
             end
             S11:begin
                 PC_Write <= 1'b1;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b1;
                 Mem_Write <= 1'b0;
+                PC0_Write <= 1'b0;
+                w_data_s <= 2'b11;
+                PC_s <= 2'b01;
             end
             S12:begin
                 PC_Write <= 1'b1;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b1;
                 Mem_Write <= 1'b1;
+                PC0_Write <= 1'b0;
+                w_data_s <= 2'b11;
+                PC_s <= 2'b10;
             end
             S13:begin
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b0;
                 Mem_Write <= 1'b0;
+                PC0_Write <= 1'b0;
+                ALU_OP <= 4'b1000;
+                rs2_imm_s <= 1'b0;
             end
             S14:begin
                 PC_Write <= ZF;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b0;
                 Mem_Write <= 1'b0;
+                PC0_Write <= 1'b0;
+                PC_s <= 2'b01;
             end
         endcase
     end
