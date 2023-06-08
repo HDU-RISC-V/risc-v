@@ -157,7 +157,7 @@ module CPUTop(
 		else begin ALU_B<=imm32; end
 	  if (w_data_s==0)begin W_Data<=F; end
 		else begin W_Data<=imm32; end
-     if (~clk==1)begin 
+     if (clk==0)begin 
 		  F <= Data_reg;
 		  FR <= Fr; end
 	  case({SW[2],SW[1],SW[0]})
