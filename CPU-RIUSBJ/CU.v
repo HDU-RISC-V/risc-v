@@ -4,6 +4,7 @@ module CU(
     input [6:0] funct7,
     input rst_n,
     input clk,
+    input ZF,
     output reg [3:0] ALU_OP,
     output reg rs2_imm_s,
     output reg [1:0] w_data_s,
@@ -255,6 +256,30 @@ begin
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b0;
                 Mem_Write <= 1'b1;
+            end
+            S11:begin
+                PC_Write <= 1'b1;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b1;
+                Mem_Write <= 1'b0;
+            end
+            S12:begin
+                PC_Write <= 1'b1;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b1;
+                Mem_Write <= 1'b1;
+            end
+            S13:begin
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b0;
+                Mem_Write <= 1'b0;
+            end
+            S14:begin
+                PC_Write <= ZF;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b0;
+                Mem_Write <= 1'b0;
             end
         endcase
     end
