@@ -205,11 +205,11 @@ begin
                 Mem_Write <= 1'b0;
                 w_data_s <= 2'b10;
             end
-            S9:begin
+            S10:begin
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
-                Reg_Write <= 1'b1;
-                Mem_Write <= 1'1;
+                Reg_Write <= 1'b0;
+                Mem_Write <= 1'b1;
             end
         endcase
     end
