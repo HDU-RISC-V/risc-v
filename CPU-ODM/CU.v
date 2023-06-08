@@ -6,10 +6,11 @@ module CU(
     input clk,
     output reg [3:0] ALU_OP,
     output reg rs2_imm_s,
-    output reg w_data_s,
+    output reg [1:0] w_data_s,
     output reg Reg_Write,
     output reg IR_Write,
-    output reg PC_Write
+    output reg PC_Write,
+    output reg Mem_Write
 );
 
 reg [3:0] ST; // 当前状态
@@ -131,20 +132,23 @@ begin
         PC_Write <= 1'b0;
         IR_Write <= 1'b0;
         Reg_Write <= 1'b0;
-        w_data_s <= 1'b0;
+        w_data_s <= 2'b00;
         rs2_imm_s <= 1'b0;
         ALU_OP <= 4'b0;
+        Mem_Write <= 1'b0;
     end else begin
         case (Next_ST)
             S1:begin
                 PC_Write <= 1'b1;
                 IR_Write <= 1'b1;
                 Reg_Write <= 1'b0;
+                Mem_Write <= 1'b0;
             end
             S2:begin
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b0;
+                Mem_Write <= 1'b0;
             end
             S3:begin
                 PC_Write <= 1'b0;
@@ -152,18 +156,21 @@ begin
                 Reg_Write <= 1'b0;
                 rs2_imm_s <= 1'b0;
                 ALU_OP <= {funct7[5], funct3};
+                Mem_Write <= 1'b0;
             end
             S4:begin
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b1;
-                w_data_s <= 1'b0;
+                w_data_s <= 2'b00;
+                Mem_Write <= 1'b0;
             end
             S5:begin
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b0;
                 rs2_imm_s <= 1'b1;
+                Mem_Write <= 1'b0;
                 if (funct3==3'b101) begin
                     ALU_OP <= {funct7[5],funct3};                    
                 end
@@ -175,7 +182,34 @@ begin
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b1;
-                w_data_s <= 1'b1;
+                w_data_s <= 2'b01;
+                Mem_Write <= 1'b0;
+            end
+            S7:begin
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b0;
+                ALU_OP <= 4'b0000;
+                Mem_Write <= 1'b0;
+            end
+            S8:begin
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b0;
+                Mem_Write <= 1'b0;
+            end
+            S9:begin
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b1;
+                Mem_Write <= 1'b0;
+                w_data_s <= 2'b10;
+            end
+            S9:begin
+                PC_Write <= 1'b0;
+                IR_Write <= 1'b0;
+                Reg_Write <= 1'b1;
+                Mem_Write <= 1'1;
             end
         endcase
     end
