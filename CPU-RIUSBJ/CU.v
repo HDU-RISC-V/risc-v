@@ -28,6 +28,11 @@ parameter S7 = 4'b0111;
 parameter S8 = 4'b1000;
 parameter S9 = 4'b1001;
 parameter S10 = 4'b1010;
+// 实验10
+parameter S11 = 4'b1011;
+parameter S12 = 4'b1100;
+parameter S13 = 4'b1101;
+parameter S14 = 4'b1110;
 
 reg [3:0] Next_ST; //次态
 
@@ -75,6 +80,9 @@ begin
                         Next_ST <= Idle;
                     end
                 end
+                7'b1101111:begin
+                    Next_ST <= S11;
+                end
                 default:
                     Next_ST <= Idle;
             endcase
@@ -101,6 +109,13 @@ begin
                         Next_ST <= Idle;
                     end
                 end
+                7'b1100011:begin
+                    if (funct3==3'b000) begin  // beq
+                        Next_ST <= S13;
+                    end else begin  // other
+                        Next_ST <= Idle;
+                    end
+                end
 
                 default:
                     Next_ST <= Idle;
@@ -123,6 +138,8 @@ begin
                 Next_ST <= S8;
             end else if ( funct3==3'b010 && opcode==7'b0100011 ) begin  // sw
                 Next_ST <= S10;
+            end else if (funct3==3'b000 && opcode==7'b1100111) begin  //jalr
+                Next_ST <= S12;
             end else begin
                 Next_ST <= Idle;
             end
@@ -136,9 +153,21 @@ begin
         S10: begin
             Next_ST <= S1;
         end
+        S11: begin
+            Next_ST <= S1;
+        end
+        S12: begin
+            Next_ST <= S1;
+        end
+        S13: begin
+            Next_ST <= S14;
+        end
+        S14: begin
+            Next_ST <= S1;
+        end
         default begin
             Next_ST <= S1;
-        end 
+        end
     endcase
 end
 
