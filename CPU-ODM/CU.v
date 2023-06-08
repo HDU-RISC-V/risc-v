@@ -61,6 +61,20 @@ begin
                 7'b0110111: begin
                     Next_ST <= S6;
                 end
+                7'b0000011: begin
+                    if (funct3==3'b010) begin  // lw
+                        Next_ST <= S2;
+                    end else begin  // other
+                        Next_ST <= Idle;
+                    end
+                end
+                7'b0100011: begin
+                    if (funct3==3'b010) begin  // sw
+                        Next_ST <= S2;
+                    end else begin  // other
+                        Next_ST <= Idle;
+                    end
+                end
                 default:
                     Next_ST <= Idle;
             endcase
@@ -105,10 +119,12 @@ begin
             Next_ST <=S1;
         end
         S7: begin
-            if (funct3==3'b010 && funct7==7'b0000011) begin  // lw
+            if (funct3==3'b010 && opcode==7'b0000011) begin  // lw
                 Next_ST <= S8;
-            end else if ( funct3==3'b010 && funct7==7'b0100011 ) begin  // sw
+            end else if ( funct3==3'b010 && opcode==7'b0100011 ) begin  // sw
                 Next_ST <= S10;
+            end else begin
+                Next_ST <= Idle;
             end
         end
         S8: begin
