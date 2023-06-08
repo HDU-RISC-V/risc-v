@@ -104,12 +104,20 @@ begin
             Next_ST <=S1;
         end
         S7: begin
+            if (funct3==3'b010 && funct7==7'b0000011) begin  // lw
+                Next_ST <= S8;
+            end else if ( funct3==3'b010 && funct7==7'b0100011 ) begin  // sw
+                Next_ST <= S10;
+            end
         end
         S8: begin
+            Next_ST <= S9;
         end
         S9: begin
+            Next_ST <= S1;
         end
         S10: begin
+            Next_ST <= S1;
         end
         default begin
             Next_ST <= S1;
