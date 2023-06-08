@@ -11,7 +11,7 @@ module DM (
 
     initial begin
         for (i=0; i<256; i=i+1) begin
-            _data[i]<=i;
+            _data[i]<=i+1;
         end
     end
     
