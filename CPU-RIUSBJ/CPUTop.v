@@ -78,29 +78,29 @@ module CPUtop(
 	.pc_out(pc32)
 	);*/
 
-	wire [31:0] _pc_out;
+	//wire [31:0] _pc_out;
 	reg [31:0] add_out;
 	wire [31:0] add_out_0;
 	wire [31:0] im_out;
 	wire [31:0] add_out_1;
 	reg [31:0] PC0;
 	wire PC0_Write;
-	wire PC_s;
+	wire [1:0] PC_s;
 	
-	always@(posedge clk or posedge PC0_Write ) begin
+	always@(posedge clk) begin
 	if (PC0_Write == 1)begin PC0 <= pc32; end
 	end
 
 	always@(*)begin
-	if(PC_s == 0)begin add_out<=add_out_0; end
-	else if(PC_s == 1)begin add_out<=add_out_1; end
-	else if(PC_s == 2)begin add_out<=F; end
+	if(PC_s == 2'b00)begin add_out<=add_out_0; end
+	else if(PC_s == 2'b01)begin add_out<=add_out_1; end
+	else if(PC_s == 2'b10)begin add_out<=F; end
 	end
 
 
 
 	ADD add_0(
-	.a(_pc_out),
+	.a(pc32),
 	.b(4),
 	.out(add_out_0)
 	);
@@ -110,7 +110,7 @@ module CPUtop(
 	.PC_Write(PC_Write),
 	.clk(~clk),
 	.rst_n(rst_n),
-	.PC_Out(_pc_out)
+	.PC_Out(pc32)
 	);
 	
 	/*
@@ -129,14 +129,14 @@ module CPUtop(
 	
 	ROM your_instance_name (
   .clka(clk), // input clka
-  .addra(_pc_out[7:2]), // input [5 : 0] addra
+  .addra(pc32[7:2]), // input [5 : 0] addra
   .douta(im_out) // output [31 : 0] douta
 	);
 
 	IR ir_0(
 	.IR_In(im_out),
 	.IR_Write(IR_Write),
-	.clk(~clk_im),
+	.clk(~clk),
 	.IR_Out(inst32)
 	);	
 
@@ -268,6 +268,7 @@ module CPUtop(
 	3'b100:begin DATA_OUTPUT<=B; end
 	3'b101:begin DATA_OUTPUT<=F; end
 	3'b110:begin DATA_OUTPUT<=MDR; end
+	
 	endcase
 
 	end

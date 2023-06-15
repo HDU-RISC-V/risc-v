@@ -16,9 +16,9 @@ module CU(
     output reg Mem_Write
 );
 
-reg [3:0] ST; // 当前状态
+reg [3:0] ST; // 当前状�
 
-// 有限状态
+// 有限状�
 parameter Idle = 4'b0000; // 空闲
 parameter S1 = 4'b0001;
 parameter S2 = 4'b0010;
@@ -37,8 +37,8 @@ parameter S12 = 4'b1100;
 parameter S13 = 4'b1101;
 parameter S14 = 4'b1110;
 
-reg [3:0] Next_ST; //次态
-
+reg [3:0] Next_ST; //次�
+reg _ZF;
 initial begin
     ST <= Idle;
 end
@@ -86,6 +86,12 @@ begin
                 7'b1101111:begin
                     Next_ST <= S11;
                 end
+                7'b1100011:begin
+                    Next_ST <= S2;
+                end
+                7'b1100111:begin
+                    Next_ST <= S2;
+                end
                 default:
                     Next_ST <= Idle;
             endcase
@@ -119,7 +125,9 @@ begin
                         Next_ST <= Idle;
                     end
                 end
-
+                7'b1100111:begin
+                    Next_ST <= S7;
+                end
                 default:
                     Next_ST <= Idle;
             endcase
@@ -211,6 +219,7 @@ begin
                 PC0_Write <= 1'b0;
             end
             S4:begin
+				_ZF<=ZF;
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b1;
@@ -233,6 +242,7 @@ begin
                 end
             end
             S6:begin
+				_ZF<=ZF;
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b1;
@@ -247,6 +257,7 @@ begin
                 ALU_OP <= 4'b0000;
                 Mem_Write <= 1'b0;
                 PC0_Write <= 1'b0;
+					 rs2_imm_s <= 1'b1;
             end
             S8:begin
                 PC_Write <= 1'b0;
@@ -256,6 +267,7 @@ begin
                 PC0_Write <= 1'b0;
             end
             S9:begin
+				_ZF<=ZF;
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b1;
@@ -264,6 +276,7 @@ begin
                 PC0_Write <= 1'b0;
             end
             S10:begin
+				_ZF<=ZF;
                 PC_Write <= 1'b0;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b0;
@@ -271,6 +284,7 @@ begin
                 PC0_Write <= 1'b0;
             end
             S11:begin
+				_ZF<=ZF;
                 PC_Write <= 1'b1;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b1;
@@ -280,6 +294,7 @@ begin
                 PC_s <= 2'b01;
             end
             S12:begin
+				_ZF<=ZF;
                 PC_Write <= 1'b1;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b1;
@@ -298,7 +313,7 @@ begin
                 rs2_imm_s <= 1'b0;
             end
             S14:begin
-                PC_Write <= ZF;
+                PC_Write <= _ZF;
                 IR_Write <= 1'b0;
                 Reg_Write <= 1'b0;
                 Mem_Write <= 1'b0;
